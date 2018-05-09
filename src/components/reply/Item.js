@@ -7,7 +7,12 @@ const styles = {
 };
 class Item extends React.Component {
   render() {
-    return <div style={styles.box}>Reply Item</div>;
+    return (
+      <div style={styles.box}>
+        <label>{this.props.author}</label>
+        <p>{this.props.isi}</p>
+      </div>
+    );
   }
 }
 

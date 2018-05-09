@@ -1,27 +1,36 @@
-/* src> components> PostList.js */
+/* src> components> Reply > List.js */
 import React from 'react';
+import { connect } from 'react-redux';
 
-import { PostItem } from '../../components';
+import { ReplyItem } from '../../components';
+import { fetchReply } from '../../redux/actions/replyAction';
 
-const postDt = [
-  {
-    isi: 'isi1',
-    author: 'joni',
-    postId: '1'
-  },
-  {
-    isi: 'isi2',
-    author: 'budi',
-    postId: '2'
+class ReplyList extends React.Component {
+  componentDidMount() {
+    this.props.fetchReply();
   }
-];
-
-class PostList extends React.Component {
   render() {
     return (
-      <div>{postDt.map(post => <PostItem key={post.id} postId={post.id} author={post.author} isi={post.isi} />)}</div>
+      <div>
+        {this.props.isLoading && <label>Loading.....</label>}
+        {this.props.errorMsg !== '' && <label>{this.props.errorMsg}</label>}
+        {this.props.replyDt.length > 0 &&
+          this.props.replyDt.map(reply => (
+            <ReplyItem key={reply.id} replyId={reply.id} author={reply.userId} isi={reply.isi} />
+          ))}
+      </div>
     );
   }
 }
 
-export default PostList;
+const mapStateToProps = state => ({
+  replyDt: state.reply.replyDt,
+  errorMsg: state.reply.errorMsg,
+  isLoading: state.reply.isLoading
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchReply: () => dispatch(fetchReply())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReplyList);
