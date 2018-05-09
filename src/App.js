@@ -16,7 +16,6 @@ class App extends Component {
               <Route exact path="/" component={Timeline} />
               <Route exact path="/login" component={Login} />
             </Switch>
-
             <Footer />
           </div>
         </BrowserRouter>
